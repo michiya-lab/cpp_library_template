@@ -13,3 +13,10 @@ $ make
 $ make test
 $ make install
 ```
+
+```bash
+$ git remote -v
+$ git remote rm origin
+$ git remote -v
+$ git remote add origin <your_remote_repository>
+```
