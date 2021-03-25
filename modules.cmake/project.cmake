@@ -1,3 +1,8 @@
+########################################################################################
+### Definittion  : USE_DEFINITTION1, USE_DEFINITION2, ...
+### Source Dir.  : TEMPLATE_SOURCE_DIR
+### Include Dir. : TEMPLATE_INCLUDE_DIR
+########################################################################################
 set_property(GLOBAL PROPERTY PATH_TEMPLATE_MODULE "${CMAKE_CURRENT_LIST_DIR}")
 macro(LOAD_DEFINITION_TEMPLATE_MODULE MACRO_ARG)
     ### You can change USE_DEFINITION (cmake arg) and ENABLE_DEFINITION (source)

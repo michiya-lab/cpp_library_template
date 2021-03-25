@@ -21,6 +21,11 @@ def create_example_cmakelists(arg_project_name):
 def create_common_cmakelists(arg_project_name):
     dirname = os.path.dirname(os.path.abspath("__file__"))
     with open(dirname + '/../modules.cmake/project.cmake', mode='w',encoding='UTF-8') as f:
+        f.write("########################################################################################\n")
+        f.write("### Definittion  : USE_DEFINITTION1, USE_DEFINITION2, ...\n")
+        f.write("### Source Dir.  : " + arg_project_name + "_SOURCE_DIR\n")
+        f.write("### Include Dir. : " + arg_project_name + "_INCLUDE_DIR\n")
+        f.write("########################################################################################\n")
         f.write("set_property(GLOBAL PROPERTY PATH_" + arg_project_name + "_MODULE \"${CMAKE_CURRENT_LIST_DIR}\")\n")
         f.write("macro(LOAD_DEFINITION_" + arg_project_name + "_MODULE MACRO_ARG)\n")
         f.write("    ### You can change USE_DEFINITION (cmake arg) and ENABLE_DEFINITION (source)\n")
