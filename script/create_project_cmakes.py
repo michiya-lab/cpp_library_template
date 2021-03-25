@@ -1,5 +1,15 @@
 import os
 import sys
+from argparse import ArgumentParser
+
+def get_option():
+    argparser = ArgumentParser()
+    argparser.add_argument('-n', '--name', type=str,
+                           default="TEMPLATE",
+                           help='Your library name')
+    argparser.add_argument('-b', '--build_main', action='store_true',
+                           help='Build main.cpp')
+    return argparser.parse_args()
 
 def create_example_cmakelists(arg_project_name):
     dirname = os.path.dirname(os.path.abspath("__file__"))
@@ -139,6 +149,42 @@ def create_test_cmakelists(arg_project_name):
         f.write(")\n")
         f.write("set_tests_properties(${TEST_NAME} PROPERTIES TIMEOUT 1)        \n")
 
+def create_main_cmakelists(arg_project_name, build_main):
+    dirname = os.path.dirname(os.path.abspath("__file__"))
+    with open(dirname + '/../CMakeLists.txt.main', mode='w',encoding='UTF-8') as f:
+        f.write("cmake_minimum_required(VERSION 3.17)\n")
+        f.write("PROJECT(" + arg_project_name + "_MAIN CXX)\n")
+        f.write("#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<f\n")
+        f.write("# src\n")
+        f.write("add_subdirectory(src)\n")
+        f.write("#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n")
+        f.write("#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<f\n")
+        f.write("# example\n")
+        f.write("if(BUILD_EXAMPLES)\n")
+        f.write("    add_subdirectory(examples)\n")
+        f.write("endif()\n")
+        f.write("#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n")
+        f.write("#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n")
+        f.write("# test\n")
+        f.write("if (BUILD_TESTING)\n")
+        f.write("    enable_testing()\n")
+        f.write("    add_subdirectory(test)\n")
+        f.write("endif()\n")
+        f.write("#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n")
+        if build_main:
+            f.write("#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n")
+            f.write("# main\n")
+            f.write("file(GLOB SOURCES \"*.cpp\")\n")
+            f.write("add_executable(${PROJECT_NAME} ${SOURCES})\n")
+            f.write("include(\"${CMAKE_CURRENT_LIST_DIR}/modules.cmake/project.cmake\")\n")
+            f.write("LOAD_SETTING_" + arg_project_name + "_MODULE(${PROJECT_NAME})\n")
+            f.write("install(\n")
+            f.write("    TARGETS ${PROJECT_NAME}\n")
+            f.write("    EXPORT ${PROJECT_NAME}\n")
+            f.write("  )\n")
+            f.write("#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n")
+
+
 def main():
     if len(sys.argv) < 2:
         print("*****************************************************")
@@ -148,10 +194,12 @@ def main():
         print("*****************************************************")
         sys.exit()
     print("Start script ...")
-    create_example_cmakelists(sys.argv[1])
-    create_common_cmakelists(sys.argv[1])
-    create_src_cmakelists(sys.argv[1])
-    create_test_cmakelists(sys.argv[1])
+    args = get_option()
+    create_example_cmakelists(args.name)
+    create_common_cmakelists(args.name)
+    create_src_cmakelists(args.name)
+    create_test_cmakelists(args.name)
+    create_main_cmakelists(args.name, args.build_main)
     print("Done")
 
 if __name__ == "__main__":

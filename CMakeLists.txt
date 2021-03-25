@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.17)
 
-PROJECT(TEMPLATE CXX)
+PROJECT(TEMPLATE_MAIN CXX)
 #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<f
 # src
 add_subdirectory(src)
@@ -17,4 +17,15 @@ if (BUILD_TESTING)
     enable_testing()
     add_subdirectory(test)
 endif()
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+# main
+file(GLOB SOURCES "*.cpp")
+add_executable(${PROJECT_NAME} ${SOURCES})
+include("${CMAKE_CURRENT_LIST_DIR}/modules.cmake/project.cmake")
+LOAD_SETTING_TEMPLATE_MODULE(${PROJECT_NAME})
+install(
+    TARGETS ${PROJECT_NAME}
+    EXPORT ${PROJECT_NAME}
+  )
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
