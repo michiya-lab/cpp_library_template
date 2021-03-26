@@ -151,7 +151,7 @@ def create_test_cmakelists(arg_project_name):
 
 def create_main_cmakelists(arg_project_name, build_main):
     dirname = os.path.dirname(os.path.abspath("__file__"))
-    with open(dirname + '/../CMakeLists.txt.main', mode='w',encoding='UTF-8') as f:
+    with open(dirname + '/../CMakeLists.txt', mode='w',encoding='UTF-8') as f:
         f.write("cmake_minimum_required(VERSION 3.17)\n")
         f.write("PROJECT(" + arg_project_name + "_MAIN CXX)\n")
         f.write("#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<f\n")
