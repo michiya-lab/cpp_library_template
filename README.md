@@ -3,6 +3,11 @@
 ## Getting start
 
 ```bash
+rm -rf .git
+git init
+```
+
+```bash
 git remote -v
 git remote rm origin
 git remote -v
