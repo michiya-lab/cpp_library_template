@@ -5,9 +5,6 @@
 ```bash
 rm -rf .git
 git init
-git add -A
-git commit -m "initial commit"
-git checkout -b develop
 ```
 
 ```bash
@@ -20,8 +17,13 @@ git checkout -b develop
 
 ```bash
 cd script
-python3 create_project_cmakes.py <your_project_name>
+python3 create_project_cmakes.py -n <your_project_name> [--build_main]
 ```
+
+```bash
+git add -A
+git commit -m "initial commit"
+git checkout -b develop
 
 ## CMake Building
 
