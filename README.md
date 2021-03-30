@@ -5,6 +5,9 @@
 ```bash
 rm -rf .git
 git init
+git add -A
+git commit -m "initial commit"
+git checkout -b develop
 ```
 
 ```bash
@@ -12,6 +15,7 @@ git remote -v
 git remote rm origin
 git remote -v
 git remote add origin <your_remote_repository>
+git checkout -b develop
 ```
 
 ```bash
